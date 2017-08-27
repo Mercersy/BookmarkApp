@@ -2,6 +2,8 @@ package com.yangsong.bookmarkApp.entities;
 
 import com.yangsong.bookmarkApp.constants.BookGenre;
 import com.yangsong.bookmarkApp.partner.Shareable;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 
 public class Book extends Bookmark implements Shareable {
@@ -70,19 +72,19 @@ public class Book extends Bookmark implements Shareable {
         return true;
     }
 
-    @Override
     public String getItemData() {
         StringBuilder builder = new StringBuilder();
         builder.append("<item>");
         builder.append("<type>Book</type>");
         builder.append("<title>").append(getTitle()).append("</title>");
-        builder.append("<authors>").append().append("</authors>");
+        builder.append("<authors>").append(StringUtils.join(authors, ",")).append("</authors>");
         builder.append("<publisher>").append(publisher).append("</publisher>");
         builder.append("<publicationYear>").append(publicationYear).append("</publicationYear>");
         builder.append("<genre>").append(genre).append("</genre>");
         builder.append("<amazonRating>").append(amazonRating).append("</amazonRating>");
         builder.append("/<item>");
 
+        return builder.toString();
 
     }
 }
