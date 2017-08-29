@@ -4,8 +4,10 @@ import com.yangsong.bookmarkApp.DataStore;
 import com.yangsong.bookmarkApp.entities.Bookmark;
 import com.yangsong.bookmarkApp.entities.UserBookmark;
 
+import java.util.List;
+
 public class BookmarkDao {
-    public Bookmark[][] getBookmarks() {
+    public List<List<Bookmark>> getBookmarks() {
         return DataStore.getBookmarks();
     }
 

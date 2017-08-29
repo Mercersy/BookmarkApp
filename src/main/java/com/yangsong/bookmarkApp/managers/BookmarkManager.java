@@ -1,7 +1,16 @@
 package com.yangsong.bookmarkApp.managers;
 
+import com.yangsong.bookmarkApp.constants.BookGenre;
+import com.yangsong.bookmarkApp.constants.KidFriendlyStatus;
+import com.yangsong.bookmarkApp.constants.MovieGenre;
 import com.yangsong.bookmarkApp.dao.BookmarkDao;
 import com.yangsong.bookmarkApp.entities.*;
+import com.yangsong.bookmarkApp.util.HttpConnect;
+import com.yangsong.bookmarkApp.util.IOUtil;
+
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.List;
 
 public class BookmarkManager {
     private static BookmarkManager instance = new BookmarkManager();
@@ -15,7 +24,7 @@ public class BookmarkManager {
     }
 
     public Movie createMovie(long id, String title, int releaseYear, String[] cast,
-                             String[] directors, String genre, double imdbRating) {
+                             String[] directors, MovieGenre genre, double imdbRating) {
         Movie movie = new Movie();
         movie.setId(id);
         movie.setTitle(title);
@@ -29,7 +38,7 @@ public class BookmarkManager {
     }
 
     public Book createBook(long id, String title, int publicationYear, String publisher,
-                           String[] authors, String genre, double amazonRating) {
+                           String[] authors, BookGenre genre, double amazonRating) {
         Book book = new Book();
         book.setId(id);
         book.setTitle(title);
@@ -51,7 +60,7 @@ public class BookmarkManager {
         return webLink;
     }
 
-    public Bookmark[][] getBookmarks() {
+    public List<List<Bookmark>> getBookmarks() {
         return dao.getBookmarks();
     }
 
@@ -60,10 +69,26 @@ public class BookmarkManager {
         userBookmark.setUser(user);
         userBookmark.setBookmark(bookmark);
 
+        if (bookmark instanceof WebLink) {
+            try {
+                String url = ((WebLink)bookmark).getUrl();
+                if (!url.endsWith(".pdf")) {
+                    String webpage = HttpConnect.download(url);
+                    if (webpage != null) {
+                        IOUtil.write(webpage, bookmark.getId());
+                    }
+                }
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
         dao.saveUserBookmark(userBookmark);
     }
 
-    public void setKidFriendlyStatus(User user, String kidFriendlyStatus, Bookmark bookmark) {
+    public void setKidFriendlyStatus(User user, KidFriendlyStatus kidFriendlyStatus, Bookmark bookmark) {
         bookmark.setKidFriendlyStatus(kidFriendlyStatus);
         bookmark.setKidFriendlyMarkedBy(user);
         System.out.println("Kid-friendly status: " + kidFriendlyStatus + ", Marked by: " + user.getEmail() + ", " + bookmark);

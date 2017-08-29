@@ -1,7 +1,11 @@
 package com.yangsong.bookmarkApp.managers;
 
+import com.yangsong.bookmarkApp.constants.Gender;
+import com.yangsong.bookmarkApp.constants.UserType;
 import com.yangsong.bookmarkApp.dao.UserDao;
 import com.yangsong.bookmarkApp.entities.User;
+
+import java.util.List;
 
 public class UserManager {
     private static UserManager instance = new UserManager();
@@ -15,7 +19,7 @@ public class UserManager {
     }
 
     public User createUser(long id, String email, String password, String firstName,
-                           String lastName, int gender, String userType) {
+                           String lastName, Gender gender, UserType userType) {
         User user = new User();
         user.setId(id);
         user.setEmail(email);
@@ -28,7 +32,7 @@ public class UserManager {
         return user;
     }
 
-    public User[] getUsers() {
+    public List<User> getUsers() {
         return dao.getUsers();
     }
 }

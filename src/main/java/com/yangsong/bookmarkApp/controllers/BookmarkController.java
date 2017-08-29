@@ -1,5 +1,6 @@
 package com.yangsong.bookmarkApp.controllers;
 
+import com.yangsong.bookmarkApp.constants.KidFriendlyStatus;
 import com.yangsong.bookmarkApp.entities.Bookmark;
 import com.yangsong.bookmarkApp.entities.User;
 import com.yangsong.bookmarkApp.managers.BookmarkManager;
@@ -16,7 +17,7 @@ public class BookmarkController {
 
     }
 
-    public void setKidFriendlyStatus(User user, String kidFriendlyStatusDecision, Bookmark bookmark) {
+    public void setKidFriendlyStatus(User user, KidFriendlyStatus kidFriendlyStatusDecision, Bookmark bookmark) {
         BookmarkManager.getInstance().setKidFriendlyStatus(user, kidFriendlyStatusDecision, bookmark);
     }
 

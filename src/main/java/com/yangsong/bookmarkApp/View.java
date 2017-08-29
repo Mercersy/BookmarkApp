@@ -7,13 +7,15 @@ import com.yangsong.bookmarkApp.entities.Bookmark;
 import com.yangsong.bookmarkApp.entities.User;
 import com.yangsong.bookmarkApp.partner.Shareable;
 
+import java.util.List;
+
 public class View {
 
-    public static void browse(User user, Bookmark[][] bookmarks) {
+    public static void browse(User user, List<List<Bookmark>> bookmarks) {
         System.out.println("\n" + user.getEmail() + " is browsing items ...");
         int bookmarkCount = 0;
 
-        for (Bookmark[] bookmarkList : bookmarks) {
+        for (List<Bookmark> bookmarkList : bookmarks) {
             for (Bookmark bookmark : bookmarkList) {
                 if(bookmarkCount < DataStore.USER_BOOKMARK_LIMIT) {
                     boolean isBookmarked = getBookmarkDecision(bookmark);
@@ -28,7 +30,7 @@ public class View {
 
                     // Mark as kid-friendly
                     if (bookmark.isKidFriendlyEligible() && bookmark.getKidFriendlyStatus().equals(KidFriendlyStatus.UNKNOWN)) {
-                        String kidFriendlyStatus = getKidFriendlyStatusDecision(bookmark);
+                        KidFriendlyStatus kidFriendlyStatus = getKidFriendlyStatusDecision(bookmark);
                         if (!kidFriendlyStatus.equals(KidFriendlyStatus.UNKNOWN)) {
                             BookmarkController.getInstance().setKidFriendlyStatus(user, kidFriendlyStatus, bookmark);
                         }
@@ -54,7 +56,7 @@ public class View {
         return Math.random() < 0.5;
     }
 
-    private static String getKidFriendlyStatusDecision(Bookmark bookmark) {
+    private static KidFriendlyStatus getKidFriendlyStatusDecision(Bookmark bookmark) {
         double tmpRandom = Math.random();
         return tmpRandom < 0.4 ? KidFriendlyStatus.APPROVED :
                 (tmpRandom >= 0.4 && tmpRandom < 0.8) ? KidFriendlyStatus.REJECTED : KidFriendlyStatus.UNKNOWN;
@@ -64,20 +66,4 @@ public class View {
         return (Math.random() < 0.5);
     }
 
-
-    /*
-    public static void bookmark(User user, Bookmark[][] bookmarks) {
-        System.out.println("\n" + user.getEmail() + " is bookmarking");
-        for(int i = 0; i < DataStore.USER_BOOKMARK_LIMIT; i++) {
-            int typeOffset = (int)(Math.random() * DataStore.BOOKMARK_TYPES_COUNT);
-            int bookmarkOffset = (int)(Math.random() * DataStore.BOOKMARK_COUNT_PER_TYPE);
-
-            Bookmark bookmark = bookmarks[typeOffset][bookmarkOffset];
-
-            BookmarkController.getInstance().saveUserBookmark(user, bookmark);
-
-            System.out.println(bookmark);
-        }
-    }
-    */
 }

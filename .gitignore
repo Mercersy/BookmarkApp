@@ -2,3 +2,6 @@
 out/
 test/
 target/
+pages/
+.idea/
+*.txt

@@ -5,9 +5,11 @@ import com.yangsong.bookmarkApp.entities.User;
 import com.yangsong.bookmarkApp.managers.BookmarkManager;
 import com.yangsong.bookmarkApp.managers.UserManager;
 
+import java.util.List;
+
 public class Launch {
-    private static User[] users;
-    private static Bookmark[][] bookmarks;
+    private static List<User> users;
+    private static List<List<Bookmark>> bookmarks;
 
     private static void loadData() {
         System.out.println("1. Loading data ...");
@@ -15,10 +17,6 @@ public class Launch {
 
         users = UserManager.getInstance().getUsers();
         bookmarks = BookmarkManager.getInstance().getBookmarks();
-
-//        System.out.println("Printing data ...");
-//        printUserData();
-//        printBookmarkData();
     }
 
     private static void printUserData() {
@@ -28,7 +26,7 @@ public class Launch {
     }
 
     private static void printBookmarkData() {
-        for(Bookmark[] bookmarksList : bookmarks) {
+        for(List<Bookmark> bookmarksList : bookmarks) {
             for(Bookmark bookmark : bookmarksList) {
                 System.out.println(bookmark);
             }
@@ -36,7 +34,6 @@ public class Launch {
     }
 
     private static void start() {
-        //System.out.println("\n2. Bookmarking ...");
         for(User user : users) {
             View.browse(user, bookmarks);
         }
