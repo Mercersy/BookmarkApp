@@ -69,6 +69,7 @@ public class BookmarkManager {
         userBookmark.setUser(user);
         userBookmark.setBookmark(bookmark);
 
+        /*
         if (bookmark instanceof WebLink) {
             try {
                 String url = ((WebLink)bookmark).getUrl();
@@ -84,6 +85,7 @@ public class BookmarkManager {
                 e.printStackTrace();
             }
         }
+        */
 
         dao.saveUserBookmark(userBookmark);
     }

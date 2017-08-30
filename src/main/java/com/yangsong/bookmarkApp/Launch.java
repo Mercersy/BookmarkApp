@@ -1,5 +1,6 @@
 package com.yangsong.bookmarkApp;
 
+import com.yangsong.bookmarkApp.bgjobs.WebpageDownloaderTask;
 import com.yangsong.bookmarkApp.entities.Bookmark;
 import com.yangsong.bookmarkApp.entities.User;
 import com.yangsong.bookmarkApp.managers.BookmarkManager;
@@ -42,6 +43,13 @@ public class Launch {
     public static void main(String[] args) {
         loadData();
         start();
+
+        runDownloaderJob();
+    }
+
+    private static void runDownloaderJob() {
+        WebpageDownloaderTask task = new WebpageDownloaderTask(true);
+        (new Thread(task)).start();
     }
 
 
